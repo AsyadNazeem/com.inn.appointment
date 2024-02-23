@@ -2,18 +2,20 @@ package com.inn.appointment.POJO;
 
 
 import jakarta.persistence.*;
+import jdk.jfr.Name;
 import lombok.Data;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import java.io.Serializable;
 
+@NamedQuery(name = "User.findByEmailId", query = "SELECT u FROM User u WHERE u.email = :email")
 
 @Data
 @Entity
 @DynamicInsert
 @DynamicUpdate
-@Table(name = " user ")
+@Table(name = "user")
 
 public class User implements Serializable {
 
@@ -21,7 +23,7 @@ public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="name")
+    @Column(name="id")
     private Integer id;
 
     @Column(name = "name")
@@ -30,10 +32,8 @@ public class User implements Serializable {
     @Column(name = "contactNumber")
     private String contactNumber;
 
-
     @Column(name = "email")
     private String email;
-
 
     @Column(name = "password")
     private String password;
@@ -43,4 +43,6 @@ public class User implements Serializable {
 
     @Column(name = "role")
     private String role;
+
+
 }
