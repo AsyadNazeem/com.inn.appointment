@@ -23,21 +23,21 @@ public class CustomerUserDetailsService implements UserDetailsService {
     @Autowired
     UserDao userDao;
 
-    private com.inn.appointment.POJO.User UserDetail;
+    private com.inn.appointment.POJO.User userDetail;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         log.info("inside logUserByName {}", username);
-        UserDetail = userDao.findByEmailId(username);
-        if (!Objects.isNull(UserDetail)) {
-            return new User(UserDetail.getEmail(), UserDetail.getPassword(), new ArrayList<>());
+        userDetail = userDao.findByEmailId(username);
+        if (!Objects.isNull(userDetail)) {
+            return new User(userDetail.getEmail(), userDetail.getPassword(), new ArrayList<>());
         } else {
             throw new UsernameNotFoundException("User not found");
         }
     }
 
     public com.inn.appointment.POJO.User getUserDetail() {
-        return UserDetail;
+        return userDetail;
     }
 
 }

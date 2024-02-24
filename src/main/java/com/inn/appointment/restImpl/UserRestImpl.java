@@ -19,9 +19,23 @@ public class UserRestImpl implements UserRest {
     @Autowired
     UserService userService;
     @Override
-    public ResponseEntity<String> SignUp(Map<String, String> requestMap) {
+    public ResponseEntity<String> signUp(Map<String, String> requestMap) {
         try{
             return userService.signUp(requestMap);
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return AppointmentUtils.getResponseEntity(AppointmentConstant.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    /**
+     * @param requestMap
+     * @return
+     */
+    @Override
+    public ResponseEntity<String> login(Map<String, String> requestMap) {
+        try{
+            return userService.login(requestMap);
         }catch (Exception ex){
             ex.printStackTrace();
         }
