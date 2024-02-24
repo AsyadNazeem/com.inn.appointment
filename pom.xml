@@ -115,11 +115,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-mail</artifactId>
 		</dependency>
-
-
-
-		<!-- Other dependencies -->
-
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>30.1-jre</version> <!-- You can check for the latest version on the Guava release page -->
+		</dependency>
 	</dependencies>
 
 	<build>

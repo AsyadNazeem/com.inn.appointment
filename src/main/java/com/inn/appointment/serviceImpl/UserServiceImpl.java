@@ -1,5 +1,6 @@
 package com.inn.appointment.serviceImpl;
 
+import com.google.common.base.Strings;
 import com.inn.appointment.JWT.CustomerUserDetailsService;
 import com.inn.appointment.JWT.JwtFilter;
 import com.inn.appointment.JWT.JwtUtil;
@@ -12,7 +13,6 @@ import com.inn.appointment.utils.EmailsUtils;
 import com.inn.appointment.wrapper.UserWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -157,10 +157,58 @@ public class UserServiceImpl implements UserService {
     private void sendMailToAllAdmins(String status, String user, List<String> allAdmin) {
         allAdmin.remove(jwtFilter.getCurrentUser());
         if (status != null && status.equalsIgnoreCase("true")) {
-            emailsUtils.sendSimpleMessage(jwtFilter.getCurrentUser(), "Account Approved", "USER:- " + user + " \n is approved by \n ADMIN :-" +jwtFilter.getCurrentUser(),allAdmin);
+            emailsUtils.sendSimpleMessage(jwtFilter.getCurrentUser(), "Account Approved", "USER:- " + user + " \n is approved by \n ADMIN :-" + jwtFilter.getCurrentUser(), allAdmin);
         } else {
-            emailsUtils.sendSimpleMessage(jwtFilter.getCurrentUser(), "Account Approved", "USER:- " + user + " \n is disabled by \n ADMIN :-" +jwtFilter.getCurrentUser(),allAdmin);
+            emailsUtils.sendSimpleMessage(jwtFilter.getCurrentUser(), "Account Approved", "USER:- " + user + " \n is disabled by \n ADMIN :-" + jwtFilter.getCurrentUser(), allAdmin);
         }
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    public ResponseEntity<String> checkToken() {
+        return AppointmentUtils.getResponseEntity("true", HttpStatus.OK);
+    }
+
+    /**
+     * @param requestMap
+     * @return
+     */
+    @Override
+    public ResponseEntity<String> changePassword(Map<String, String> requestMap) {
+        try {
+            User userobj = userDao.findByEmail(jwtFilter.getCurrentUser());
+            if (!userobj.equals(null)) {
+                if (userobj.getPassword().equals(requestMap.get("oldPassword"))) {
+                    userobj.setPassword(requestMap.get("newPassword"));
+                    userDao.save(userobj);
+                    return AppointmentUtils.getResponseEntity("PASSWORD_CHANGED", HttpStatus.OK);
+                }
+                return AppointmentUtils.getResponseEntity("INVALID_OLD_PASSWORD", HttpStatus.BAD_REQUEST);
+            }
+            return AppointmentUtils.getResponseEntity(AppointmentConstant.SOMETHING_WENT_WRONG, HttpStatus.BAD_REQUEST);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return AppointmentUtils.getResponseEntity(AppointmentConstant.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    /**
+     * @param requestMap
+     * @return
+     */
+    @Override
+    public ResponseEntity<String> forgotPassword(Map<String, String> requestMap) {
+        try {
+            User user = userDao.findByEmail(requestMap.get("email"));
+            if (!Objects.isNull(user) && !Strings.isNullOrEmpty(user.getEmail()))
+                emailsUtils.forgotMail(user.getEmail(), "Credentials by Appointment Management System", user.getPassword());
+            return AppointmentUtils.getResponseEntity("Password has been sent to your email", HttpStatus.OK);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return AppointmentUtils.getResponseEntity(AppointmentConstant.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 }
