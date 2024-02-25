@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 
 
-@NamedQuery(name = "Appointments.getAllAppointments", query = "select a from Appointments a")
+@NamedQuery(name = "Appointments.getAllAppointments", query = "select a from Appointments a where a.id in (select c.appointments from Channelling c where c.status = 'true')")
 
 
 
