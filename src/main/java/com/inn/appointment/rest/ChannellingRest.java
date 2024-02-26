@@ -4,10 +4,7 @@ package com.inn.appointment.rest;
 import com.inn.appointment.POJO.Channelling;
 import com.inn.appointment.wrapper.ChannellingWrapper;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -24,4 +21,6 @@ public interface ChannellingRest {
     @PostMapping("/update")
     ResponseEntity<String> updateChannelling(@RequestBody Map<String, String> requestMap);
 
+    @PostMapping("/delete/{id}")
+    ResponseEntity<String> deleteChannelling(@PathVariable Integer id);
 }

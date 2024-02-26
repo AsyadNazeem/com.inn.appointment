@@ -24,13 +24,12 @@ public class ChannellingRestImpl implements ChannellingRest {
     @Autowired
     ChannellingServices channellingServices;
 
-
     @Override
     public ResponseEntity<String> addNewChannelling(Map<String, String> requestMap) {
         try {
             return channellingServices.addNewChannelling(requestMap);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
         return AppointmentUtils.getResponseEntity(AppointmentConstant.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -42,8 +41,8 @@ public class ChannellingRestImpl implements ChannellingRest {
     public ResponseEntity<List<ChannellingWrapper>> getAllChannelling() {
         try {
             return channellingServices.getAllChannelling();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
         return new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -56,8 +55,22 @@ public class ChannellingRestImpl implements ChannellingRest {
     public ResponseEntity<String> updateChannelling(Map<String, String> requestMap) {
         try {
             return channellingServices.updateChannelling(requestMap);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return AppointmentUtils.getResponseEntity(AppointmentConstant.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    /**
+     * @param id
+     * @return
+     */
+    @Override
+    public ResponseEntity<String> deleteChannelling(Integer id) {
+        try {
+            return channellingServices.deleteChannelling(id);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
         return AppointmentUtils.getResponseEntity(AppointmentConstant.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
     }

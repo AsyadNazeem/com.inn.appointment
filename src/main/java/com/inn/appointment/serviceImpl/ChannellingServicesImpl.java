@@ -96,7 +96,7 @@ public class ChannellingServicesImpl implements ChannellingServices {
             if (jwtFilter.isAdmin()) {
                 if (validateAppointmentMap(requestMap, true)) {
                     Optional<Channelling> optional = channellingDao.findById(Integer.parseInt(requestMap.get("id")));
-                    if(!optional.isEmpty()){
+                    if (!optional.isEmpty()) {
                         Channelling channelling = getProductFromMap(requestMap, true);
                         channelling.setStatus(optional.get().getStatus());
                         channellingDao.save(channelling);
@@ -106,6 +106,30 @@ public class ChannellingServicesImpl implements ChannellingServices {
                     }
                 }
                 return AppointmentUtils.getResponseEntity(AppointmentConstant.INVALID_DATA, HttpStatus.BAD_REQUEST);
+            } else {
+                return AppointmentUtils.getResponseEntity(AppointmentConstant.UNAUTHORIZED_ACCESS, HttpStatus.UNAUTHORIZED);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return AppointmentUtils.getResponseEntity(AppointmentConstant.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    /**
+     * @param id
+     * @return
+     */
+    @Override
+    public ResponseEntity<String> deleteChannelling(Integer id) {
+        try {
+            if (jwtFilter.isAdmin()) {
+                Optional optional = channellingDao.findById(id);
+                if (!optional.isEmpty()) {
+                    channellingDao.deleteById(id);
+                    return AppointmentUtils.getResponseEntity("Product Deleted SuccessFully", HttpStatus.OK);
+                }
+                return AppointmentUtils.getResponseEntity("Product Id does not exist", HttpStatus.OK);
+
             } else {
                 return AppointmentUtils.getResponseEntity(AppointmentConstant.UNAUTHORIZED_ACCESS, HttpStatus.UNAUTHORIZED);
             }
