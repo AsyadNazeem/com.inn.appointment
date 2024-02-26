@@ -26,4 +26,7 @@ public interface ChannellingRest {
 
     @PostMapping("/updateStatus")
     ResponseEntity<String> updateStatus(@RequestBody Map<String, String> requestMap);
+
+    @GetMapping("/getByChannelling/{id}")
+    ResponseEntity<List<ChannellingWrapper>> getByChannelling(@PathVariable Integer id);
 }

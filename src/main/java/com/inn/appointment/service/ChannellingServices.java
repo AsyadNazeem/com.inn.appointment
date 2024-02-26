@@ -16,4 +16,6 @@ public interface ChannellingServices {
     ResponseEntity<String> deleteChannelling(Integer id);
 
     ResponseEntity<String> updateStatus(Map<String, String> requestMap);
+
+    ResponseEntity<List<ChannellingWrapper>> getByChannelling(Integer id);
 }

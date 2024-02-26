@@ -16,4 +16,6 @@ public interface ChannellingDao extends JpaRepository<Channelling, Integer>{
     @Modifying
     @Transactional
     Integer updateAppointmentStatus(@Param("status") String status, @Param("id") Integer id);
+
+    List<ChannellingWrapper> getByChannelling(@Param("id") Integer id);
 }

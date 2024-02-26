@@ -26,4 +26,9 @@ public class ChannellingWrapper {
         this.status = status;
     }
 
+
+    public ChannellingWrapper(Integer id, String doctor) {
+        this.id = id;
+        this.doctor = doctor;
+    }
 }

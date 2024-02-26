@@ -166,4 +166,18 @@ public class ChannellingServicesImpl implements ChannellingServices {
         return AppointmentUtils.getResponseEntity(AppointmentConstant.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    /**
+     * @param id
+     * @return
+     */
+    @Override
+    public ResponseEntity<List<ChannellingWrapper>> getByChannelling(Integer id) {
+        try {
+            return new ResponseEntity<>(channellingDao.getByChannelling(id), HttpStatus.OK);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
 }

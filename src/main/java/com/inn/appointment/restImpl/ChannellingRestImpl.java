@@ -88,4 +88,18 @@ public class ChannellingRestImpl implements ChannellingRest {
         }
         return AppointmentUtils.getResponseEntity(AppointmentConstant.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    /**
+     * @param id
+     * @return
+     */
+    @Override
+    public ResponseEntity<List<ChannellingWrapper>> getByChannelling(Integer id) {
+        try {
+            return channellingServices.getByChannelling(id);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }
