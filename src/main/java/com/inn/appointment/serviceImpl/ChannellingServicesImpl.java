@@ -139,4 +139,31 @@ public class ChannellingServicesImpl implements ChannellingServices {
         return AppointmentUtils.getResponseEntity(AppointmentConstant.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    /**
+     * @param requestMap
+     * @return
+     */
+    @Override
+    public ResponseEntity<String> updateStatus(Map<String, String> requestMap) {
+        try {
+            if (jwtFilter.isAdmin()) {
+                if (requestMap.containsKey("id") && requestMap.containsKey("status")) {
+                    Optional optional = channellingDao.findById(Integer.parseInt(requestMap.get("id")));
+                    if (!optional.isEmpty()) {
+                        channellingDao.updateAppointmentStatus(requestMap.get("status"), Integer.parseInt(requestMap.get("id")));
+                        return AppointmentUtils.getResponseEntity("Product Status Updated SuccessFully", HttpStatus.OK);
+                    }
+                    return AppointmentUtils.getResponseEntity("Product Id does not exist", HttpStatus.OK);
+                }
+                return AppointmentUtils.getResponseEntity(AppointmentConstant.INVALID_DATA, HttpStatus.BAD_REQUEST);
+            } else {
+                return AppointmentUtils.getResponseEntity(AppointmentConstant.UNAUTHORIZED_ACCESS, HttpStatus.UNAUTHORIZED);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+
+        }
+        return AppointmentUtils.getResponseEntity(AppointmentConstant.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
 }

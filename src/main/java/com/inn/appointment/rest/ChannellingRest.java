@@ -23,4 +23,7 @@ public interface ChannellingRest {
 
     @PostMapping("/delete/{id}")
     ResponseEntity<String> deleteChannelling(@PathVariable Integer id);
+
+    @PostMapping("/updateStatus")
+    ResponseEntity<String> updateStatus(@RequestBody Map<String, String> requestMap);
 }
