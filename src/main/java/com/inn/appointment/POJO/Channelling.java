@@ -15,6 +15,8 @@ import java.io.Serializable;
 
 @NamedQuery(name = "Channelling.getByChannelling", query = "select new com.inn.appointment.wrapper.ChannellingWrapper(c.id, c.doctor) from Channelling c where c.appointments.id = :id and c.status = 'true'")
 
+@NamedQuery(name = "Channelling.getChannellingById", query = "select new com.inn.appointment.wrapper.ChannellingWrapper(c.id, c.doctor, c.specialization, c.hospital, c.description) from Channelling c where c.id = :id")
+
 @Data
 @Entity
 @DynamicInsert

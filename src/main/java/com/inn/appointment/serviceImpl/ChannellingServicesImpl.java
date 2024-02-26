@@ -180,4 +180,18 @@ public class ChannellingServicesImpl implements ChannellingServices {
         return new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    /**
+     * @param id
+     * @return
+     */
+    @Override
+    public ResponseEntity<ChannellingWrapper> getChannellingById(Integer id) {
+        try {
+            return new ResponseEntity<>(channellingDao.getChannellingById(id), HttpStatus.OK);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return new ResponseEntity<>(new ChannellingWrapper(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
 }

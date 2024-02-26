@@ -31,4 +31,16 @@ public class ChannellingWrapper {
         this.id = id;
         this.doctor = doctor;
     }
+
+    public ChannellingWrapper(Integer id, String doctor, String specialization, String hospital, String description) {
+        this.id = id;
+        this.doctor = doctor;
+        this.specialization = specialization;
+        this.hospital = hospital;
+        this.description = description;
+    }
+
+    public ChannellingWrapper() {
+
+    }
 }

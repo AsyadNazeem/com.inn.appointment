@@ -18,4 +18,6 @@ public interface ChannellingServices {
     ResponseEntity<String> updateStatus(Map<String, String> requestMap);
 
     ResponseEntity<List<ChannellingWrapper>> getByChannelling(Integer id);
+
+    ResponseEntity<ChannellingWrapper> getChannellingById(Integer id);
 }

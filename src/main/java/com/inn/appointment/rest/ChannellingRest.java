@@ -29,4 +29,7 @@ public interface ChannellingRest {
 
     @GetMapping("/getByChannelling/{id}")
     ResponseEntity<List<ChannellingWrapper>> getByChannelling(@PathVariable Integer id);
+
+    @GetMapping("/getById/{id}")
+    ResponseEntity<ChannellingWrapper> getChannellingById(@PathVariable Integer id);
 }

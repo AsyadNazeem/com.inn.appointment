@@ -102,4 +102,18 @@ public class ChannellingRestImpl implements ChannellingRest {
         }
         return new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    /**
+     * @param id
+     * @return
+     */
+    @Override
+    public ResponseEntity<ChannellingWrapper> getChannellingById(Integer id) {
+        try {
+            return channellingServices.getChannellingById(id);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return new ResponseEntity<>(new ChannellingWrapper(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }
