@@ -4,7 +4,6 @@ import com.inn.appointment.JWT.JwtFilter;
 import com.inn.appointment.POJO.Appointments;
 import com.inn.appointment.POJO.Channelling;
 import com.inn.appointment.constents.AppointmentConstant;
-import com.inn.appointment.dao.AppointmentDao;
 import com.inn.appointment.dao.ChannellingDao;
 import com.inn.appointment.service.ChannellingServices;
 import com.inn.appointment.utils.AppointmentUtils;
@@ -17,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class ChannellingServicesImpl implements ChannellingServices {
@@ -84,6 +84,35 @@ public class ChannellingServicesImpl implements ChannellingServices {
             ex.printStackTrace();
         }
         return new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    /**
+     * @param requestMap
+     * @return
+     */
+    @Override
+    public ResponseEntity<String> updateChannelling(Map<String, String> requestMap) {
+        try {
+            if (jwtFilter.isAdmin()) {
+                if (validateAppointmentMap(requestMap, true)) {
+                    Optional<Channelling> optional = channellingDao.findById(Integer.parseInt(requestMap.get("id")));
+                    if(!optional.isEmpty()){
+                        Channelling channelling = getProductFromMap(requestMap, true);
+                        channelling.setStatus(optional.get().getStatus());
+                        channellingDao.save(channelling);
+                        return AppointmentUtils.getResponseEntity("Product Updated SuccessFully", HttpStatus.OK);
+                    } else {
+                        return AppointmentUtils.getResponseEntity("Product Id does not exist", HttpStatus.OK);
+                    }
+                }
+                return AppointmentUtils.getResponseEntity(AppointmentConstant.INVALID_DATA, HttpStatus.BAD_REQUEST);
+            } else {
+                return AppointmentUtils.getResponseEntity(AppointmentConstant.UNAUTHORIZED_ACCESS, HttpStatus.UNAUTHORIZED);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return AppointmentUtils.getResponseEntity(AppointmentConstant.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 }
