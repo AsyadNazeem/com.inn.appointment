@@ -21,6 +21,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Slf4j
 @Service
@@ -83,8 +84,50 @@ public class UserServiceImpl implements UserService {
         user.setPassword(requestMap.get("password"));
         user.setStatus("false");
         user.setRole("user");
+
+        // Generate a unique number based on a counter (replace this with your logic)
+        String uniqueNumber = generateUniqueID();
+        user.setUniqueNumber(uniqueNumber);
+
         return user;
     }
+
+    private String generateUniqueID() {
+        // Characters to use for generating the unique ID
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+        // Length of the unique ID
+        int length = 6;
+
+        // StringBuilder to build the unique ID
+        StringBuilder uniqueID = new StringBuilder();
+
+        // Generate the unique ID by randomly selecting characters from the set
+        for (int i = 0; i < length; i++) {
+            int randomIndex = (int) (Math.random() * characters.length());
+            uniqueID.append(characters.charAt(randomIndex));
+        }
+
+        return uniqueID.toString();
+    }
+
+
+//    private String generateUniqueID() {
+//        // Prefix for user
+//        String prefix = "U";
+//
+//        // Generate a random number (you can customize the length)
+//        int randomNumber = generateRandomNumber(1000, 9999);
+//
+//        // Combine the prefix and random number
+//        return prefix + randomNumber;
+//    }
+//
+//    private int generateRandomNumber(int min, int max) {
+//        // Generate a random number between the specified range
+//        return ThreadLocalRandom.current().nextInt(min, max + 1);
+//    }
+
 
 
     /**
