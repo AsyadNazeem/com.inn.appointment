@@ -90,7 +90,7 @@ public class BillServiceImpl implements BillService {
                 document.close();
                 return new ResponseEntity<>("{\"message\":\"Report Generated Successfully\"}", HttpStatus.OK);
             }
-            return AppointmentUtils.getResponseEntity(AppointmentConstant.SOMETHING_WENT_WRONG, HttpStatus.OK);
+            return AppointmentUtils.getResponseEntity("Required Data Not Found", HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -103,12 +103,12 @@ public class BillServiceImpl implements BillService {
         table.addCell((String) data.get("description"));
         table.addCell((String) data.get("phone"));
         table.addCell((String) data.get("paymentmethod"));
-        table.addCell(Double.toString((Double) data.get("amount")));
+        table.addCell(Double.toString((Double) data.get("total")));
     }
 
     private void addTableHeader(PdfPTable table) {
         log.info("inside addTableHeader");
-        Stream.of("Name", "description", "phone", "paymentmethod", "amount")
+        Stream.of("Name", "description", "Phone", "Payment Method", "Amount")
                 .forEach(columnTitle -> {
                     PdfPCell header = new PdfPCell();
                     header.setBackgroundColor(BaseColor.LIGHT_GRAY);
@@ -159,12 +159,11 @@ public class BillServiceImpl implements BillService {
             bill.setUuid((String) requestMap.get("uuid"));
             bill.setName((String) requestMap.get("name"));
             bill.setEmail((String) requestMap.get("email"));
-            bill.setPhone((String) requestMap.get("phone"));
-            bill.setAddress((String) requestMap.get("address"));
-            bill.setPaymentmethod((String) requestMap.get("paymentmethod"));
-            bill.setAmount(Integer.parseInt((String) requestMap.get("amount")));
-            bill.setDescription((String) requestMap.get("description"));
-            bill.setBilledBy(jwtFilter.getCurrentUser());
+            bill.setContactNumber((String) requestMap.get("contactNumber"));
+            bill.setPaymentMethod((String) requestMap.get("paymentMethod"));
+            bill.setTotal(Integer.parseInt((String) requestMap.get("totalAmount")));
+            bill.setProductDetails((String) requestMap.get("productDetails"));
+            bill.setCreatedBy(jwtFilter.getCurrentUser());
             billDao.save(bill);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -175,12 +174,12 @@ public class BillServiceImpl implements BillService {
     private boolean validateRequestMap(Map<String, Object> requestMap) {
         return requestMap.containsKey("name") &&
                 requestMap.containsKey("email") &&
-                requestMap.containsKey("phone") &&
+                requestMap.containsKey("contactNumber") &&
                 requestMap.containsKey("address") &&
-                requestMap.containsKey("paymentmethod") &&
-                requestMap.containsKey("amount") &&
-                requestMap.containsKey("Description") &&
-                requestMap.containsKey("BilledBy");
+                requestMap.containsKey("paymentMethod") &&
+                requestMap.containsKey("totalAmount") &&
+                requestMap.containsKey("productDetails") &&
+                requestMap.containsKey("createdBy");
     }
 
 

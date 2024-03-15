@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 
 @NamedQuery(name = "Bill.getAllBIlls", query = "SELECT b FROM Bill b order by b.id desc")
-@NamedQuery(name = "Bill.getBillsByUserName", query = "SELECT b FROM Bill b where b.billedBy = :username order by b.id desc")
+@NamedQuery(name = "Bill.getBillsByUserName", query = "SELECT b FROM Bill b where b.createdBy = :username order by b.id desc")
 
 
 @Data
@@ -36,23 +36,20 @@ public class Bill implements Serializable {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "phone")
-    private String phone;
-
-    @Column(name = "address")
-    private String address;
+    @Column(name = "contactnumber")
+    private String contactNumber;
 
     @Column(name = "paymentmethod")
-    private String paymentmethod;
+    private String paymentMethod;
 
-    @Column(name = "amount")
-    private Integer amount;
+    @Column(name = "total")
+    private Integer total;
 
-    @Column(name = "Description", columnDefinition = "JSON")
-    private String Description;
+    @Column(name = "productdetails", columnDefinition = "JSON")
+    private String productDetails;
 
-    @Column(name = "billedby")
-    private String billedBy;
+    @Column(name = "createdby")
+    private String createdBy;
 
 
 }
