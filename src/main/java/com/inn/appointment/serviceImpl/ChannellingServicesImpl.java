@@ -70,6 +70,9 @@ public class ChannellingServicesImpl implements ChannellingServices {
         channelling.setSpecialization(requestMap.get("specialization"));
         channelling.setHospital(requestMap.get("hospital"));
         channelling.setDescription(requestMap.get("description"));
+        channelling.setDate(requestMap.get("date"));
+        channelling.setAmount(requestMap.get("amount"));
+        channelling.setAppointment_count(requestMap.get("appointment_count"));
         return channelling;
     }
 

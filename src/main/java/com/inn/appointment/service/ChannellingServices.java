@@ -9,7 +9,7 @@ import java.util.Map;
 public interface ChannellingServices {
     ResponseEntity<String> addNewChannelling(Map<String, String> requestMap);
 
-    ResponseEntity<List<ChannellingWrapper>> getAllChannelling ();
+    ResponseEntity<List<ChannellingWrapper>> getAllChannelling();
 
     ResponseEntity<String> updateChannelling(Map<String, String> requestMap);
 

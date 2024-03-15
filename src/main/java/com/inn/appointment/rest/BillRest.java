@@ -27,3 +27,4 @@ public interface BillRest  {
     ResponseEntity<String> deleteBill(@RequestBody Integer id);
 
 }
+

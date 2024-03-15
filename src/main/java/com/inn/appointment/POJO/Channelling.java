@@ -9,7 +9,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 
-@NamedQuery(name = "Channelling.getAllChannelling", query = "select new com.inn.appointment.wrapper.ChannellingWrapper(c.id, c.doctor, c.specialization, c.hospital, c.appointments.id, c.appointments.name, c.description, c.status) from Channelling c")
+@NamedQuery(name = "Channelling.getAllChannelling", query = "select new com.inn.appointment.wrapper.ChannellingWrapper(c.id, c.doctor, c.specialization, c.hospital, c.appointments.id, c.appointments.name, c.description, c.status, c.date, c.amount, c.appointment_count) from Channelling c")
 
 @NamedQuery(name = "Channelling.updateAppointmentStatus", query = "update Channelling c set c.status = :status where c.id = :id")
 
@@ -24,12 +24,15 @@ import java.io.Serializable;
 @Table(name = "channelling")
 public class Channelling implements Serializable {
 
-        public static final long serialVersionUID = 1L;
+        public static final long serialVersionUID = 123456L;
 
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Column(name = "id")
         private Integer id;
+
+        @Column(name = "date")
+        private String date;
 
         @Column(name = "doctor")
         private String doctor;
@@ -49,4 +52,10 @@ public class Channelling implements Serializable {
 
         @Column(name = "status")
         private String status;
+
+        @Column(name = "amount")
+        private String amount;
+
+        @Column(name = "appointment_count")
+        private String appointment_count;
 }
